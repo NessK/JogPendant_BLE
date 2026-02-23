@@ -1,27 +1,27 @@
 # JogPendant_BLE
 
-BLE HID jog-pendant for ESP32 (LOLIN D32) til CNCjs.
+BLE HID jog pendant for ESP32 (LOLIN D32) with CNCjs-oriented key mapping.
 
-Prosjektfil:
+Project file:
 - `JogPendant_BLE/JogPendant_BLE.ino`
 
-## Funksjon
+## Features
 
-- Roterende encoder for jogging av valgt akse.
-- Axis-valg: `X`, `Y`, `Z`, `4` (Axis4 brukes til probe-trigger).
-- Step-valg:
-  - `1` = small step (ingen modifier)
-  - `10` = medium step (`Alt`)
-  - `100` = large step (`Ctrl`)
+- Rotary encoder jog control for the selected axis.
+- Axis select: `X`, `Y`, `Z`, `4` (`Axis4` is used for probe trigger mode).
+- Step select:
+- `1` = small step (no modifier)
+- `10` = medium step (`Alt`)
+- `100` = large step (`Ctrl`)
 - Smooth jog:
-  - `Shift` = smooth high
-  - `Shift + Alt` = smooth medium
+- `Shift` = smooth high
+- `Shift + Alt` = smooth medium
 - Probe trigger:
-  - `Alt + P` etter 3 enable-klikk innen tidsvindu når Axis4 er valgt.
+- Sends `Alt + P` after 3 enable clicks within a time window while Axis4 is selected.
 - E-STOP lockout:
-  - Blokkerer all input og blinker LED mens E-STOP er aktiv.
+- Blocks all actions and blinks LED while E-STOP is active.
 
-## HID keymap (oppdatert for CNCjs uten pil/PageUp/PageDown)
+## HID keymap (no Arrow/PageUp/PageDown)
 
 - `F13` = `X-`
 - `F14` = `X+`
@@ -30,9 +30,9 @@ Prosjektfil:
 - `F17` = `Z+`
 - `F18` = `Z-`
 
-## Kobling (ESP32 / LOLIN D32)
+## Wiring (ESP32 / LOLIN D32)
 
-Alle input-pinner er satt til `INPUT_PULLUP`, dvs. signal er normalt `HIGH` og blir aktivt ved å trekke pinnen til `GND` (active LOW), unntatt E-STOP som kan konfigureres via `ESTOP_PRESSED_LEVEL`.
+All input pins are configured as `INPUT_PULLUP`. This means inputs are normally `HIGH` and become active when pulled to `GND` (active LOW), except E-STOP logic which is controlled by `ESTOP_PRESSED_LEVEL`.
 
 ### Pinout
 
@@ -48,41 +48,34 @@ Alle input-pinner er satt til `INPUT_PULLUP`, dvs. signal er normalt `HIGH` og b
 - E-STOP: `GPIO4` (`ESTOP`)
 - Status LED: `GPIO16` (`LED_PIN`)
 
-### Praktisk kobling
+### Practical wiring
 
-- Encoder:
-  - Encoder kanal A -> `GPIO32`
-  - Encoder kanal B -> `GPIO22`
-  - Encoder GND -> `GND`
-- Axis-velger (f.eks. 4-posisjons bryter):
-  - Felles -> `GND`
-  - Utgang X -> `GPIO25`
-  - Utgang Y -> `GPIO27`
-  - Utgang Z -> `GPIO14`
-  - Utgang 4 -> `GPIO17`
-- Step-velger (f.eks. 3-posisjons bryter):
-  - Felles -> `GND`
-  - Utgang 1 -> `GPIO12`
-  - Utgang 10 -> `GPIO13`
-  - Utgang 100 -> `GPIO15`
-- E-STOP:
-  - Koble etter valgt logikk i kode.
-  - Standard i filen er `#define ESTOP_PRESSED_LEVEL HIGH`.
-  - Hvis du bruker pullup + bryter til GND for "pressed", endre til `LOW`.
-- LED:
-  - `GPIO16` -> seriemotstand -> LED -> `GND`
-  - Eller bruk intern/ekstern LED tilpasset ditt kort.
+- Encoder channel A -> `GPIO32`
+- Encoder channel B -> `GPIO22`
+- Encoder GND -> `GND`
+- Axis switch common -> `GND`
+- Axis X output -> `GPIO25`
+- Axis Y output -> `GPIO27`
+- Axis Z output -> `GPIO14`
+- Axis4 output -> `GPIO17`
+- Step switch common -> `GND`
+- Step 1 output -> `GPIO12`
+- Step 10 output -> `GPIO13`
+- Step 100 output -> `GPIO15`
+- E-STOP wiring follows your chosen logic in code.
+- Default is `#define ESTOP_PRESSED_LEVEL HIGH`.
+- If your E-STOP uses pullup + switch to GND for pressed state, set it to `LOW`.
+- LED wiring example: `GPIO16` -> resistor -> LED -> `GND`.
 
-## Viktige antakelser
+## Assumptions
 
-- Velg bare én axis-linje aktiv av gangen.
-- Velg bare én step-linje aktiv av gangen.
-- Felles jord (`GND`) mellom alle brytere/encoder og ESP32.
+- Only one axis line is active at a time.
+- Only one step line is active at a time.
+- Common ground (`GND`) is shared between switches/encoder and ESP32.
 
-## Bygg og opplasting
+## Build and upload
 
-1. Åpne `JogPendant_BLE/JogPendant_BLE.ino` i Arduino IDE.
-2. Installer biblioteket `BleKeyboard` (T-vK).
-3. Velg riktig ESP32-board (LOLIN D32 / tilsvarende).
-4. Kompiler og last opp.
-
+1. Open `JogPendant_BLE/JogPendant_BLE.ino` in Arduino IDE.
+2. Install the `BleKeyboard` library (T-vK).
+3. Select the correct ESP32 board (LOLIN D32 or equivalent).
+4. Compile and upload.
