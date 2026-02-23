@@ -73,6 +73,29 @@ E-STOP behavior is controlled by `ESTOP_PRESSED_LEVEL` in code.
 - Default in this project: `HIGH`
 - If your pressed state pulls to ground, set it to `LOW`
 
+## Wire Color Reference (from included card)
+
+This is based on the paper diagram shown in the photos. Wire colors can vary between production batches, so verify with continuity testing before powering the ESP32.
+
+| Signal | Color (observed) |
+|---|---|
+| `+5V` | Red |
+| Encoder `A` | White |
+| Encoder `B` | Black |
+| `G` / common | Green |
+| `X` | Yellow |
+| `Y` | Yellow/Black |
+| `Z` | Brown |
+| `Axis4` | Brown/Black |
+| `Step 1` (`X1`) | Gray |
+| `Step 10` (`X10`) | Gray/Black |
+| `Step 100` (`X100`) | Orange/Black |
+| `COM` | Black |
+| E-STOP `C` | Blue |
+| E-STOP `CN` | Blue/Black |
+
+If your card labels differ, trust the card + multimeter over this table.
+
 ## CNCjs Setup
 
 Map CNCjs jog actions to `F13`-`F18`.
