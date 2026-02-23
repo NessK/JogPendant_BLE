@@ -4,6 +4,16 @@ BLE HID jog pendant for ESP32 (tested on LOLIN D32), designed for CNCjs.
 
 This project turns a physical jog wheel + selector switches into a wireless BLE keyboard pendant with dedicated function-key mapping (`F13`-`F18`) to avoid Arrow/Page key conflicts.
 
+## Photos
+
+Pendant unit:
+
+![Pendant device](docs/images/pendant-device.jpeg)
+
+Wire card / color reference:
+
+![Pendant wiring card](docs/images/pendant-wire-card.jpeg)
+
 ## Highlights
 
 - BLE keyboard pendant for CNC jogging
@@ -133,6 +143,10 @@ This keeps jog controls isolated from normal arrow/page navigation keys.
 - No jog response in CNCjs: verify hotkeys are bound to `F13`-`F18`.
 - Unstable behavior: verify only one axis and one step input are active at a time.
 - Wrong E-STOP behavior: flip `ESTOP_PRESSED_LEVEL` between `HIGH` and `LOW`.
+
+## Credits
+
+- BLE keyboard support is provided by [T-vK/ESP32-BLE-Keyboard](https://github.com/T-vK/ESP32-BLE-Keyboard).
 
 ## Project File
 
