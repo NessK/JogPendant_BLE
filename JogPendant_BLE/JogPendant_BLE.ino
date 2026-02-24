@@ -22,6 +22,8 @@
 
 BleKeyboard bleKeyboard("CNC Jog Pendant", "NOV", 100);
 
+#define DEBUG_KEY_EVENTS 1
+
 // Some BLE keyboard stacks expose F1-F12 only. Provide F13-F18 if missing.
 #ifndef KEY_F13
 #define KEY_F13 0xF0
@@ -129,6 +131,15 @@ void modsForTap(int stepMode, bool &useCtrl, bool &useAlt, bool &useShift) {
 // ---- BLE helpers ----
 void tapWithMods(uint8_t key, bool useCtrl, bool useAlt, bool useShift) {
   if (!bleKeyboard.isConnected()) return;
+#if DEBUG_KEY_EVENTS
+  Serial.print("KEY SEND key=0x");
+  Serial.print(key, HEX);
+  Serial.print(" mods=");
+  if (useShift) Serial.print("Shift+");
+  if (useCtrl)  Serial.print("Ctrl+");
+  if (useAlt)   Serial.print("Alt+");
+  Serial.println("Key");
+#endif
 
   if (useCtrl)  bleKeyboard.press(KEY_LEFT_CTRL);
   if (useAlt)   bleKeyboard.press(KEY_LEFT_ALT);
@@ -228,6 +239,12 @@ void emitDetent(int detentDir, char axis, int stepMode) {
   uint8_t arrowKey;
   mapArrowKeys(axis, positive, arrowKey);
   if (!arrowKey) return;
+#if DEBUG_KEY_EVENTS
+  Serial.print("DETENT axis="); Serial.print(axis);
+  Serial.print(" dir="); Serial.print(detentDir);
+  Serial.print(" step="); Serial.print(stepMode);
+  Serial.print(" key=0x"); Serial.println(arrowKey, HEX);
+#endif
 
   // Speed between detents for smooth trigger
   static unsigned long prevDetentMicros = 0;
