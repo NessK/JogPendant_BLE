@@ -134,7 +134,7 @@ This keeps jog controls isolated from normal arrow/page navigation keys.
 
 - Jogging only works when both an axis and a step mode are selected.
 - Axis4 disables jog and enables probe trigger click counting.
-- If enable goes OFF, pendant sends `!` (feed hold).
+- If enable goes OFF, pendant sends `F19` (private bridge signal).
 - During E-STOP, all key output is blocked.
 
 ## Troubleshooting

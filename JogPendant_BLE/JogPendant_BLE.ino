@@ -115,9 +115,9 @@ int readStepModeRaw() {
 
 // ---- Axis -> key mapping ----
 void mapArrowKeys(char axis, bool positive, uint8_t &keyOut) {
-  if (axis == 'X') keyOut = positive ? KEY_F14 : KEY_F13;  // X+ / X-
-  else if (axis == 'Y') keyOut = positive ? KEY_F15 : KEY_F16; // Y+ / Y-
-  else if (axis == 'Z') keyOut = positive ? KEY_F17 : KEY_F18; // Z+ / Z-
+  if (axis == 'X') keyOut = positive ? '\'' : ';';   // X+ / X-
+  else if (axis == 'Y') keyOut = positive ? ',' : '.'; // Y+ / Y-
+  else if (axis == 'Z') keyOut = positive ? '/' : '\\'; // Z+ / Z-
   else keyOut = 0;
 }
 
@@ -403,12 +403,12 @@ void loop() {
     }
   }
 
-  // If enable goes OFF: stop smooth and send '!' (feed hold)
+  // If enable goes OFF: stop smooth and send KEY_F19 (private bridge signal)
   if (falling) {
     stopSmoothIfActive("enable OFF");
     if (bleKeyboard.isConnected()) {
-      bleKeyboard.write('!');
-      Serial.println("Sent '!' (feed hold) due to enable OFF");
+      bleKeyboard.write(KEY_F19);
+      Serial.println("Sent KEY_F19 due to enable OFF");
     }
   }
 
